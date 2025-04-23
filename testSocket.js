@@ -1,6 +1,6 @@
 // testSocket.js
 const io = require('socket.io-client');
-const socket = io('http://localhost:5000'); // Connect to the server
+const socket = io('https://server-obl1.onrender.com'); // Connect to the server
 
 // When the connection is established, join the game
 socket.on('connect', () => {
