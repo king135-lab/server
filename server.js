@@ -26,7 +26,7 @@ app.use('/api/users', userRoutes);
 
 // Connect to MongoDB
 mongoose
-    .connect('process.env.MONGODB_URI', {
+    .connect('mongodb+srv://adem:adem@np.g88gat7.mongodb.net/?retryWrites=true&w=majority&appName=np', {
         useNewUrlParser: true,
         useUnifiedTopology: true
     })
