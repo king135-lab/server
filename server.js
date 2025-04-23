@@ -26,7 +26,7 @@ app.use('/api/users', userRoutes);
 
 // Connect to MongoDB
 mongoose
-    .connect('mongodb://localhost:27017/number-position-game', {
+    .connect('process.env.MONGODB_URI', {
         useNewUrlParser: true,
         useUnifiedTopology: true
     })
