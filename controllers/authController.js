@@ -38,7 +38,7 @@ const signup = async (req, res) => {
         await transporter.sendMail({
             to: email,
             subject: 'Verify Your Email',
-            html: `Click <a href="${verificationUrl}">here</a> to verify your email.`
+            html: `Click <a href="${verificationUrl}" style="display: inline-block; padding: 10px 20px; background-color: #4CAF50; color: white; text-decoration: none; border-radius: 5px; font-weight: bold; transition: background-color 0.3s ease;">here</a> to verify your email and unlock the magic!`
         });
         return res.status(201).json({ message: 'User created. Please verify your email.' });
     } catch (err) {
@@ -111,7 +111,7 @@ const resendVerification = async (req, res) => {
         await transporter.sendMail({
             to: email,
             subject: 'Verify Your Email',
-            html: `Click <a href="${verificationUrl}">here</a> to verify your email.`
+            html: `Click <a href="${verificationUrl}" style="display: inline-block; padding: 10px 20px; background-color: #4CAF50; color: white; text-decoration: none; border-radius: 5px; font-weight: bold; transition: background-color 0.3s ease;">here</a> to verify your email and unlock the magic!`
         });
         res.status(200).json({ message: 'Verification email resent' });
     } catch (err) {
@@ -135,7 +135,7 @@ const requestPasswordReset = async (req, res) => {
         await transporter.sendMail({
             to: email,
             subject: 'Password Reset',
-            html: `Click <a href="${resetUrl}">here</a> to reset your password.`
+            html: `Click <a href="${verificationUrl}" style="display: inline-block; padding: 10px 20px; background-color: #4CAF50; color: white; text-decoration: none; border-radius: 5px; font-weight: bold; transition: background-color 0.3s ease;">here</a> to verify your email and unlock the magic!`
         });
         res.status(200).json({ message: 'Password reset email sent' });
     } catch (err) {
