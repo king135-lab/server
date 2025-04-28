@@ -183,19 +183,17 @@ const requestPasswordReset = async (req, res) => {
         user.resetPasswordToken = resetToken;
         user.resetPasswordExpires = Date.now() + 3600000; // 1 hour
         await user.save();
-        const resetUrl = `https://server-obl1.onrender.com/reset-password/${resetToken}`;
+        const resetUrl = `https://np-game.vercel.app/reset-password/${resetToken}`; // Update to frontend domain
         await transporter.sendMail({
             to: email,
             subject: 'Password Reset',
             html: `
 <div style="text-align: center; padding: 25px 15px; font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; background-color: #f9f9f9; border-radius: 10px;">
     <h2 style="color: #FF5733; font-size: 24px; margin-bottom: 15px;">🔑 Password Reset Request</h2>
-    
     <p style="color: #444444; font-size: 16px; line-height: 1.6; margin-bottom: 30px;">
         Need a fresh start? Let's get you back in action!<br>
         Click the button below to reset your password within the next 30 minutes.
     </p>
-
     <a href="${resetUrl}" 
        style="display: inline-block;
               padding: 16px 32px;
@@ -213,7 +211,6 @@ const requestPasswordReset = async (req, res) => {
               margin-bottom: 25px;">
         Reset Password Now
     </a>
-
     <div style="border-top: 1px solid #eeeeee; padding-top: 25px;">
         <p style="color: #666666; font-size: 14px; line-height: 1.5;">
             If you didn't request this reset, please secure your account immediately.<br>
