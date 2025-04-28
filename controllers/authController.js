@@ -33,11 +33,37 @@ const signup = async (req, res) => {
             verificationToken
         });
         await newUser.save();
-        const verificationUrl = `https://server-obl1.onrender.com/api/auth/verify/${verificationToken}`;
+        const verificationUrl = `https://np-game.vercel.app/api/auth/verify/${verificationToken}`;
         await transporter.sendMail({
             to: email,
             subject: 'Verify Your Email',
-            html: `Click <a href="${verificationUrl}" style="display: inline-block; padding: 10px 20px; background-color: #4CAF50; color: white; text-decoration: none; border-radius: 5px; font-weight: bold; transition: background-color 0.3s ease;">here</a> to verify your email and unlock the magic!`
+            html: `
+<div style="text-align: center; padding: 20px 0; font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;">
+    <p style="color: #333333; font-size: 16px; margin-bottom: 30px;">Almost there! Just one click to verify your email and start your journey ✨</p>
+    
+    <a href="${verificationUrl}" 
+       style="display: inline-block; 
+              padding: 15px 30px;
+              background: linear-gradient(135deg, #4CAF50, #45a049);
+              color: white; 
+              text-decoration: none; 
+              border-radius: 8px;
+              font-weight: 600;
+              font-size: 16px;
+              letter-spacing: 0.5px;
+              box-shadow: 0 4px 12px rgba(76, 175, 80, 0.25);
+              transition: all 0.3s ease;
+              position: relative;
+              overflow: hidden;">
+        Verify Your Email Now
+    </a>
+
+    <p style="color: #666666; font-size: 14px; margin-top: 30px;">
+        Link not working? <br>
+        Copy this URL: ${verificationUrl}
+    </p>
+</div>
+`
         });
         return res.status(201).json({ message: 'User created. Please verify your email.' });
     } catch (err) {
@@ -86,7 +112,7 @@ const verifyEmail = async (req, res) => {
         user.verificationToken = undefined;
         await user.save();
         const jwtToken = jwt.sign({ userId: user._id }, JWT_SECRET, { expiresIn: '7d' });
-        res.redirect(`https://server-obl1.onrender.com/?token=${jwtToken}`);
+        res.redirect(`https://np-game.vercel.app/?token=${jwtToken}`);
     } catch (err) {
         console.error('Error during verification:', err);
         res.status(500).json({ message: 'Internal server error' });
@@ -106,11 +132,37 @@ const resendVerification = async (req, res) => {
         const verificationToken = crypto.randomBytes(32).toString('hex');
         user.verificationToken = verificationToken;
         await user.save();
-        const verificationUrl = `https://server-obl1.onrender.com/api/auth/verify/${verificationToken}`;
+        const verificationUrl = `https://np-game.vercel.app/api/auth/verify/${verificationToken}`;
         await transporter.sendMail({
             to: email,
             subject: 'Verify Your Email',
-            html: `Click <a href="${verificationUrl}" style="display: inline-block; padding: 10px 20px; background-color: #4CAF50; color: white; text-decoration: none; border-radius: 5px; font-weight: bold; transition: background-color 0.3s ease;">here</a> to verify your email and unlock the magic!`
+            html: `
+<div style="text-align: center; padding: 20px 0; font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;">
+    <p style="color: #333333; font-size: 16px; margin-bottom: 30px;">Almost there! Just one click to verify your email and start your journey ✨</p>
+    
+    <a href="${verificationUrl}" 
+       style="display: inline-block; 
+              padding: 15px 30px;
+              background: linear-gradient(135deg, #4CAF50, #45a049);
+              color: white; 
+              text-decoration: none; 
+              border-radius: 8px;
+              font-weight: 600;
+              font-size: 16px;
+              letter-spacing: 0.5px;
+              box-shadow: 0 4px 12px rgba(76, 175, 80, 0.25);
+              transition: all 0.3s ease;
+              position: relative;
+              overflow: hidden;">
+        Verify Your Email Now
+    </a>
+
+    <p style="color: #666666; font-size: 14px; margin-top: 30px;">
+        Link not working? <br>
+        Copy this URL: ${verificationUrl}
+    </p>
+</div>
+`
         });
         res.status(200).json({ message: 'Verification email resent' });
     } catch (err) {
@@ -130,11 +182,45 @@ const requestPasswordReset = async (req, res) => {
         user.resetPasswordToken = resetToken;
         user.resetPasswordExpires = Date.now() + 3600000; // 1 hour
         await user.save();
-        const resetUrl = `https://server-obl1.onrender.com/reset-password/${resetToken}`;
+        const resetUrl = `https://np-game.vercel.app/reset-password/${resetToken}`;
         await transporter.sendMail({
             to: email,
             subject: 'Password Reset',
-            html: `Click <a href="${resetUrl}" style="display: inline-block; padding: 12px 24px; background-color: #FF5733; color: white; text-decoration: none; border-radius: 6px; font-weight: bold; transition: background-color 0.3s ease;">here</a> to reset your password and get back in the game!`
+            html: `
+<div style="text-align: center; padding: 25px 15px; font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; background-color: #f9f9f9; border-radius: 10px;">
+    <h2 style="color: #FF5733; font-size: 24px; margin-bottom: 15px;">🔑 Password Reset Request</h2>
+    
+    <p style="color: #444444; font-size: 16px; line-height: 1.6; margin-bottom: 30px;">
+        Need a fresh start? Let's get you back in action!<br>
+        Click the button below to reset your password within the next 30 minutes.
+    </p>
+
+    <a href="${resetUrl}" 
+       style="display: inline-block;
+              padding: 16px 32px;
+              background: linear-gradient(135deg, #FF6B6B, #FF5733);
+              color: white;
+              text-decoration: none;
+              border-radius: 8px;
+              font-weight: 600;
+              font-size: 16px;
+              letter-spacing: 0.5px;
+              box-shadow: 0 4px 15px rgba(255, 87, 51, 0.3);
+              transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+              border: none;
+              cursor: pointer;
+              margin-bottom: 25px;">
+        Reset Password Now
+    </a>
+
+    <div style="border-top: 1px solid #eeeeee; padding-top: 25px;">
+        <p style="color: #666666; font-size: 14px; line-height: 1.5;">
+            If you didn't request this reset, please secure your account immediately.<br>
+            <small style="color: #999999;">Link valid for 30 minutes: ${resetUrl}</small>
+        </p>
+    </div>
+</div>
+`
         });
         res.status(200).json({ message: 'Password reset email sent' });
     } catch (err) {
