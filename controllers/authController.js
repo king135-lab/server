@@ -5,7 +5,7 @@ const jwt = require('jsonwebtoken');
 const crypto = require('crypto');
 const nodemailer = require('nodemailer');
 
-const JWT_SECRET = 'your_jwt_secret_here';
+const JWT_SECRET = 'a34f8597b4b7d5212b8143eca333b5d4fa4ae073d7155ecf17f49e5bfa97479a00d586be6a5aa02f8be14176532f1b78dd8da82c9221e0ebd1fd618f99fa7827206c2c7d21c2ed93f3f115d8881af360c5930454fa02969277618a80d4189c5304a46fdabaa273fb1fe64f99ee84d063f3799e08b3745da8544fdbb8cce42427efba26cc814b3e661a7edcdca8c1b45bb3c0aa817b9fa8eb61dd27751feac148604250ae8021b3660190ddb32b8471528fe6fbcc2aa92388460e2f8c5bab5c2c09df2b5dfacc23a62ccd4a7a75584eada738624efe67dce11f6cc9865adc5e6d507036d010bec7b9e4ba93ea91c1372bc04e0d7869684e4dd0c86cc4c51353b167274aabb32ec451b4781ce79ea465a8ffada0cfa64ffa65701ed05c780b9cfa4717d8343520eee5dc715877cb11054197c99a138b386811e2d688c195dac56a409cc04c76be09f8d93cd88f947989edd803af780f3ce0b48e4cb5be7ce519bf7ccecf60bc96c145fb65aa717528036b3c0e91d33da902a59dd94a277c20c900b52daf620d697f0fadc119695f776083ec938eb1c0e7f68c3adf947f10ff815fe92578eafec69c5a4845e7c5ce15ad49da8e87bbd73268f118af1b7f0c1581a811d7a4878ad9e2026e03996fde4a7e0ed80e09aca5334fbd717fb3a1c986e492fb89cbbc77e20d2e66042ea03ead0ab68a30bcd40abc4e30d7ceb5cdbfc6f92c';
 const transporter = nodemailer.createTransport({
     service: 'gmail',
     auth: {
@@ -33,7 +33,7 @@ const signup = async (req, res) => {
             verificationToken
         });
         await newUser.save();
-        const verificationUrl = `https://np-game.vercel.app/api/auth/verify/${verificationToken}`;
+        const verificationUrl = `https://server-obl1.onrender.com/api/auth/verify/${verificationToken}`;
         await transporter.sendMail({
             to: email,
             subject: 'Verify Your Email',
@@ -112,7 +112,7 @@ const verifyEmail = async (req, res) => {
         user.verificationToken = undefined;
         await user.save();
         const jwtToken = jwt.sign({ userId: user._id }, JWT_SECRET, { expiresIn: '7d' });
-        res.redirect(`https://np-game.vercel.app/?token=${jwtToken}`);
+        res.redirect(`https://server-obl1.onrender.com/?token=${jwtToken}`);
     } catch (err) {
         console.error('Error during verification:', err);
         res.status(500).json({ message: 'Internal server error' });
@@ -132,7 +132,7 @@ const resendVerification = async (req, res) => {
         const verificationToken = crypto.randomBytes(32).toString('hex');
         user.verificationToken = verificationToken;
         await user.save();
-        const verificationUrl = `https://np-game.vercel.app/api/auth/verify/${verificationToken}`;
+        const verificationUrl = `https://server-obl1.onrender.com/api/auth/verify/${verificationToken}`;
         await transporter.sendMail({
             to: email,
             subject: 'Verify Your Email',
@@ -182,7 +182,7 @@ const requestPasswordReset = async (req, res) => {
         user.resetPasswordToken = resetToken;
         user.resetPasswordExpires = Date.now() + 3600000; // 1 hour
         await user.save();
-        const resetUrl = `https://np-game.vercel.app/reset-password/${resetToken}`;
+        const resetUrl = `https://server-obl1.onrender.com/reset-password/${resetToken}`;
         await transporter.sendMail({
             to: email,
             subject: 'Password Reset',
