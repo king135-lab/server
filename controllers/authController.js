@@ -101,6 +101,7 @@ const login = async (req, res) => {
     }
 };
 
+
 const verifyEmail = async (req, res) => {
     try {
         const { token } = req.params;
@@ -112,7 +113,7 @@ const verifyEmail = async (req, res) => {
         user.verificationToken = undefined;
         await user.save();
         const jwtToken = jwt.sign({ userId: user._id }, JWT_SECRET, { expiresIn: '7d' });
-        res.redirect(`https://server-obl1.onrender.com/?token=${jwtToken}`);
+        res.redirect(`https://np-game.vercel.app/?token=${jwtToken}`); // Adjust if frontend is on a different domain
     } catch (err) {
         console.error('Error during verification:', err);
         res.status(500).json({ message: 'Internal server error' });
